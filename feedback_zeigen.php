@@ -59,8 +59,15 @@
           <h1 class="display-5 fw-bold">Kundenfeedback</h1>
 
           <?php
+          $query= "SELECT datum,name,note,feedback FROM feedback";
+          if (isset($_GET['filter'])){
+            if ($_GET['filter']=="heute"){
+              $query = $query." WHERE DATE(datum)=DATE(now())";
+            }else{
+            $query= $query." WHERE note >" . $_GET['filter'];
+          }}
           $link = mysqli_connect("localhost", "root", "", "mustermann");
-          $result = mysqli_query($link, "SELECT datum,name,note,feedback FROM feedback");
+          $result = mysqli_query($link, $query);
           while ($row = mysqli_fetch_row($result)) {
             echo "<p>Am " . date("d.m.Y,H:i", strtotime($row[0])) . " von <strong>" . $row[1] . "</strong><br>";
             echo "(".$row[2].") " . str_repeat("⭐", $row[2])."<br>";
@@ -68,6 +75,7 @@
           }
           ?>
         </div>
+        <a class="btn btn-outline-secondary" href="?filter=heute">heute</a>
       </div>
 
       <footer class="pt-3 mt-4 text-muted border-top">
