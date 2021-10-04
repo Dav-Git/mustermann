@@ -62,7 +62,8 @@
           $link = mysqli_connect("localhost", "root", "", "mustermann");
           $result = mysqli_query($link, "SELECT datum,name,note,feedback FROM feedback");
           while ($row = mysqli_fetch_row($result)) {
-            echo "<p>Am " . $row[0] . " von " . $row[1] . " mit einer Note von " . $row[2] . " bewertet.<br>";
+            echo "<p>Am " . $row[0] . " von " . $row[1] . "<br>";
+            echo "(".$row[2].") " . str_repeat("⭐", $row[2])."<br>";
             echo $row[3] . "</p>";
           }
           ?>
