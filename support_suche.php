@@ -78,15 +78,20 @@
               echo $vorname . " " . $nachname . " Eintrittsjahr: " . $eintrittsjahr . " Bereich: " . $bereich . "<br>";
             }
           }
+          ?>
+                    <h1> BEREICHSSUCHE </h1>
+                    <?php
           if (isset($_REQUEST['bereich'])) {
             mysqli_stmt_close($stmt);
-            $stmt = mysqli_prepare($link, "SELECT nachname, vorname, eintrittsjahr, bereich FROM team WHERE bereich LIKE ?");
+            $stmt = mysqli_prepare($link, "SELECT nachname, vorname, eintrittsjahr, bereich FROM team WHERE
+                    bereich LIKE ?");
             $fuckoff = "%" . $_REQUEST["bereich"] . "%";
             $query = mysqli_stmt_bind_param($stmt, "s", $fuckoff);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_bind_result($stmt, $nachname, $vorname, $eintrittsjahr, $bereich);
             while (mysqli_stmt_fetch($stmt)) {
-              echo $vorname . " " . $nachname . " Eintrittsjahr: " . $eintrittsjahr . " Bereich: " . $bereich . "<br>";
+              echo $vorname . " " . $nachname . " Eintrittsjahr: " . $eintrittsjahr . " Bereich: " . $bereich .
+                "<br>";
             }
             mysqli_stmt_close($stmt);
           }
