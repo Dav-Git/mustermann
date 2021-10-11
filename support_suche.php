@@ -69,20 +69,19 @@
                     <a class="btn btn-outline-secondary" href="support_suche.php">Reset</a><br>
                     <?php
           if (isset($_REQUEST["nachname"])) {
-            $link = mysqli_connect("localhost", "root", "", "mustermann");
-            $stmt = mysqli_prepare($link, "SELECT nachname,vorname,eintrittsjahr,bereich FROM team WHERE nachname=?");
-            $query = mysqli_stmt_bind_param($stmt, "s", $_REQUEST["nachname"]);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_bind_result($stmt, $nachname, $vorname, $eintrittsjahr, $bereich);
-            while (mysqli_stmt_fetch($stmt)) {
-              echo $vorname . " " . $nachname . " Eintrittsjahr: " . $eintrittsjahr . " Bereich: " . $bereich . "<br>";
+            $dbh = new PDO("mysql:host=localhost;dbname=mustermann", "root", "");
+            $stmt = $dbh->prepare("SELECT nachname,vorname,eintrittsjahr,bereich FROM team WHERE nachname=:nachname");
+            $stmt->bindParam(":nachname", $_REQUEST["nachname"]);
+            $stmt->execute();
+            while ($row = $stmt->fetch()) {
+              echo $row["vorname"] . " " . $row["nachname"] . " Eintrittsjahr: " . $row["eintrittsjahr"] . " Bereich: " . $row["bereich"] . "<br>";
             }
           }
           ?>
                     <h1> BEREICHSSUCHE </h1>
                     <?php
           if (isset($_REQUEST['bereich'])) {
-            mysqli_stmt_close($stmt);
+            $link = mysqli_connect("localhost", "root", "", "mustermann");
             $stmt = mysqli_prepare($link, "SELECT nachname, vorname, eintrittsjahr, bereich FROM team WHERE
                     bereich LIKE ?");
             $fuckoff = "%" . $_REQUEST["bereich"] . "%";
