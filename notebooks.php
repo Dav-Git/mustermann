@@ -1,7 +1,9 @@
 <?php
 
 declare(strict_types=1);
-setcookie("notebook", 1, time() + 60 * 60 * 24 * 30);
+require("stats.php");
+
+setcookie("notebook", "1", time() + 60 * 60 * 24 * 30);
 require("notebook-functions.php")
 ?>
 <!doctype html>
@@ -71,14 +73,14 @@ require("notebook-functions.php")
                     OS):
                     <br>
                     <?php
-          define("UMST", 1.19);
-          $nettopreise = [
-            "Surface Pro (12,3 Zoll)" => 19.80,
-            "Surface Laptop (13,5 Zoll)" => 29,
-            "Mac Book Pro (13 Zoll)" => 34.99
-          ];
+                    define("UMST", 1.19);
+                    $nettopreise = [
+                        "Surface Pro (12,3 Zoll)" => 19.80,
+                        "Surface Laptop (13,5 Zoll)" => 29,
+                        "Mac Book Pro (13 Zoll)" => 34.99
+                    ];
 
-          ?>
+                    ?>
                     <table class="table table-striped">
                         <thead>
                             <td>Notebook</td>
@@ -87,15 +89,15 @@ require("notebook-functions.php")
                             <td>Tagesmietpreis Brutto 2020 (16% MwSt.)</td>
                         </thead>
                         <?php
-            foreach ($nettopreise as $key => $value) {
-              echo "<tr>";
-              echo "<td>$key</td>";
-              echo "<td>" . number_format($value, 2, ",", ".") . "€</td>";
-              echo "<td>" . number_format(brutto($value), 2, ",", ".") . " €</td>";
-              echo "<td>" . number_format(brutto($value, 1.16), 2, ",", ".") . " €</td>";
-              echo "</tr>";
-            }
-            ?>
+                        foreach ($nettopreise as $key => $value) {
+                            echo "<tr>";
+                            echo "<td>$key</td>";
+                            echo "<td>" . number_format($value, 2, ",", ".") . "€</td>";
+                            echo "<td>" . number_format(brutto($value), 2, ",", ".") . " €</td>";
+                            echo "<td>" . number_format(brutto($value, 1.16), 2, ",", ".") . " €</td>";
+                            echo "</tr>";
+                        }
+                        ?>
                     </table>
 
                 </div>
@@ -103,6 +105,9 @@ require("notebook-functions.php")
 
             <footer class="pt-3 mt-4 text-muted border-top">
                 &copy; 2021 Mustermann GmbH - eine Demoseite Übungen (Modul Web-Technologien)
+                <?php
+                require("stats_display.php");
+                ?>
             </footer>
         </div>
     </main>

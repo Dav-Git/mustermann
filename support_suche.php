@@ -1,3 +1,8 @@
+<?php
+
+declare(strict_types=1);
+require("stats.php");
+?>
 <!doctype html>
 <html lang="de">
 
@@ -68,34 +73,34 @@
                     </form>
                     <a class="btn btn-outline-secondary" href="support_suche.php">Reset</a><br>
                     <?php
-          if (isset($_REQUEST["nachname"])) {
-            $dbh = new PDO("mysql:host=localhost;dbname=mustermann", "root", "");
-            $stmt = $dbh->prepare("SELECT nachname,vorname,eintrittsjahr,bereich FROM team WHERE nachname=:nachname");
-            $stmt->bindParam(":nachname", $_REQUEST["nachname"]);
-            $stmt->execute();
-            while ($row = $stmt->fetch()) {
-              echo $row["vorname"] . " " . $row["nachname"] . " Eintrittsjahr: " . $row["eintrittsjahr"] . " Bereich: " . $row["bereich"] . "<br>";
-            }
-          }
-          ?>
+                    if (isset($_REQUEST["nachname"])) {
+                        $dbh = new PDO("mysql:host=localhost;dbname=mustermann", "root", "");
+                        $stmt = $dbh->prepare("SELECT nachname,vorname,eintrittsjahr,bereich FROM team WHERE nachname=:nachname");
+                        $stmt->bindParam(":nachname", $_REQUEST["nachname"]);
+                        $stmt->execute();
+                        while ($row = $stmt->fetch()) {
+                            echo $row["vorname"] . " " . $row["nachname"] . " Eintrittsjahr: " . $row["eintrittsjahr"] . " Bereich: " . $row["bereich"] . "<br>";
+                        }
+                    }
+                    ?>
                     <h1> BEREICHSSUCHE </h1>
                     <?php
-          if (isset($_REQUEST['bereich'])) {
-            $link = mysqli_connect("localhost", "root", "", "mustermann");
-            $stmt = mysqli_prepare($link, "SELECT nachname, vorname, eintrittsjahr, bereich FROM team WHERE
+                    if (isset($_REQUEST['bereich'])) {
+                        $link = mysqli_connect("localhost", "root", "", "mustermann");
+                        $stmt = mysqli_prepare($link, "SELECT nachname, vorname, eintrittsjahr, bereich FROM team WHERE
                     bereich LIKE ?");
-            $fuckoff = "%" . $_REQUEST["bereich"] . "%";
-            $query = mysqli_stmt_bind_param($stmt, "s", $fuckoff);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_bind_result($stmt, $nachname, $vorname, $eintrittsjahr, $bereich);
-            while (mysqli_stmt_fetch($stmt)) {
-              echo $vorname . " " . $nachname . " Eintrittsjahr: " . $eintrittsjahr . " Bereich: " . $bereich .
-                "<br>";
-            }
-            mysqli_stmt_close($stmt);
-          }
+                        $fuckoff = "%" . $_REQUEST["bereich"] . "%";
+                        $query = mysqli_stmt_bind_param($stmt, "s", $fuckoff);
+                        mysqli_stmt_execute($stmt);
+                        mysqli_stmt_bind_result($stmt, $nachname, $vorname, $eintrittsjahr, $bereich);
+                        while (mysqli_stmt_fetch($stmt)) {
+                            echo $vorname . " " . $nachname . " Eintrittsjahr: " . $eintrittsjahr . " Bereich: " . $bereich .
+                                "<br>";
+                        }
+                        mysqli_stmt_close($stmt);
+                    }
 
-          ?>
+                    ?>
 
                     <p class="col-md-9 fs-5">
                         <a class="btn btn-outline-secondary" href="index.html">zurück zur Startseite</a>
@@ -106,6 +111,9 @@
 
             <footer class="pt-3 mt-4 text-muted border-top">
                 &copy; 2021 Mustermann GmbH - eine Demoseite Übungen (Modul Web-Technologien)
+                <?php
+                require("stats_display.php");
+                ?>
             </footer>
         </div>
     </main>
