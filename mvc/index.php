@@ -1,4 +1,4 @@
-<?php 
+<?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
 // Daten-"Model"
@@ -9,13 +9,20 @@ $model = new ShopData();
 require "classes/ShopActions.php";
 $controller = new ShopActions($model);
 
-//"Vorlagen" für Views
+//"Vorlagen" fï¿½r Views
 require "views/Seite.php";  // Eltern-Klasse "Seite"
 require "views/ISeite.php"; // Interface "ISeite"
 
 // View
-require "views/Startseite.php";
-$view = new Startseite($controller, $model);
+if (isset($_GET['page'])) {
+    if ($_GET['page'] == 'Sonderangebot') {
+        require "views/Sonderangebot.php";
+        $view = new Sonderangebot($controller, $model);
+    }
+} else {
+    require "views/Startseite.php";
+    $view = new Startseite($controller, $model);
+}
 
 // Ausgabe
 echo $view->output();

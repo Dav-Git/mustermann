@@ -1,9 +1,9 @@
-<?php 
+<?php
 class Startseite extends Seite implements ISeite
 {
-	public function output() : string
-	{
-		$html="
+  public function output(): string
+  {
+    $html = "
           <html>
           <head><title>Startseite</title></head>
 		  
@@ -12,11 +12,12 @@ class Startseite extends Seite implements ISeite
           <h2>Startseite</h2>
 		  
           <p>Willkommen auf der Website von Mustermann IT-Service</p>
+          <p>Zu unserem <a href=?page=Sonderangebot>Sonderangebot</a></p>
 
 		  </body>
           </html>
         ";
-		
-		return $html;
-	}
+
+    return $html;
+  }
 }
