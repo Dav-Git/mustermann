@@ -13,6 +13,7 @@ class Startseite extends Seite implements ISeite
 		  
           <p>Willkommen auf der Website von Mustermann IT-Service</p>
           <p>Zu unserem <a href=?page=Sonderangebot>Sonderangebot</a></p>
+          <p>Zu unserem <a href=?page=Impressum>Impressum</a></p>
 
 		  </body>
           </html>

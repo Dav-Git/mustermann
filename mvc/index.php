@@ -1,12 +1,18 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
+function autoload($className)
+{
+    $class = "classes/" . $className . ".php";
+    if (file_exists($class)) {
+        require_once($class);
+    }
+}
+spl_autoload_register("autoload");
 // Daten-"Model"
-require "classes/ShopData.php";
 $model = new ShopData();
 
 // Shop-"Controller"
-require "classes/ShopActions.php";
 $controller = new ShopActions($model);
 
 //"Vorlagen" f�r Views
@@ -15,14 +21,21 @@ require "views/ISeite.php"; // Interface "ISeite"
 
 // View
 if (isset($_GET['page'])) {
-    if ($_GET['page'] == 'Sonderangebot') {
-        require "views/Sonderangebot.php";
-        $view = new Sonderangebot($controller, $model);
-    }
+    $page = htmlspecialchars($_GET['page'], ENT_QUOTES);
+    $page = str_replace("/", "", $page);
+    $page = str_replace("\\", "", $page);
+    $page = str_replace(".", "", $page);
 } else {
-    require "views/Startseite.php";
-    $view = new Startseite($controller, $model);
+    $page = "Startseite";
 }
+$pagePath = "views/$page.php";
+if (!file_exists($pagePath)) {
+    $pagePath = "views/Startseite.php";
+    $page = "Startseite";
+}
+
+require $pagePath;
+$view = new $page($controller, $model);
 
 // Ausgabe
 echo $view->output();
