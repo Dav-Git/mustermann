@@ -1,0 +1,29 @@
+<script>
+    let request = new XMLHttpRequest();
+    let counter = 0;
+
+    function ladeKurs() {
+        request.onload = zeigeAntwort;
+        request.open('GET', 'kurs.php');
+        request.send();
+        counter += 1
+    }
+
+    function zeigeAntwort() {
+        document.getElementById('kurs').innerHTML = request.responseText;
+        counter -= 1;
+    }
+
+    function showCount() {
+        document.getElementById('counter').innerHTML = counter;
+    }
+    setInterval(showCount, 100);
+    let a = setInterval(ladeKurs, 1000);
+
+    function stop() {
+        clearInterval(a);
+    }
+</script>
+<p id="counter"></p>
+<p id='kurs'></p>
+<button onclick="stop()">Stop</button>
